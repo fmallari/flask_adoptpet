@@ -16,6 +16,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 connect_db(app)
 db.create_all()
 
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False 
 toolbar = DebugToolbarExtension(app)
 
 ###################################################
@@ -46,10 +47,9 @@ def add_pet():
         # redirect form for editing
         return render_template("pet_add_form.html", form=form)
     
-    @app.route("/<int:pet_id>", methods=["GET", "POST"])
-    def edit_pet(pet_id):
+@app.route("/<int:pet_id>", methods=["GET", "POST"])
+def edit_pet(pet_id):
         """Edit Pet"""
-
         pet = Pet.query.get_or_404(pet_id)
         form = EditPetForm(obj=pet)
 
@@ -62,12 +62,12 @@ def add_pet():
             return redirect(url_for('list_pets'))
         
         else:
-            # failed; re-present form for editing
+        # failed; re-present form for editing
             return render_template("pet_edit_form.html", form=form, pet=pet)
 
 
-    @app.route("/api/pets/<int:pet_id>", methods=['GET'])
-    def api_get_pet(pet_id):
+@app.route("/api/pets/<int:pet_id>", methods=['GET'])
+def api_get_pet(pet_id):
         """Return info about pet in JSON"""
 
         pet = Pet.query.get_or_404(pet_id)
