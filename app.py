@@ -58,7 +58,7 @@ def add_pet():
             pet.available = form.available.data
             pet.photo_url = form.photo_url.data
             db.session.commit()
-            flash(f"{pet.name} updated.")
+            flash(f"{pet.name} updated!")
             return redirect(url_for('list_pets'))
         
         else:
